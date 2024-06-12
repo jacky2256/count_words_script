@@ -2,6 +2,7 @@ import psycopg2
 from parsel import Selector
 import re
 import csv
+from config import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 
 def count_descendants(data):
     children = {}
@@ -201,13 +202,14 @@ try:
     headers_big_file = headers_.copy()
     headers_big_file.append('source_link')
     write_big_file(headers_big_file, 'w')
-
+    
     connection = psycopg2.connect(
-        user="postgres",
-        password="Aqpl308E",
-        host="23.239.19.241",
-        port="5432",
-        dbname="rss_html")
+        user=DB_USER,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+        dbname=DB_NAME
+    )
 
     count_null_keywords_list = read_count_keywords()
 

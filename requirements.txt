@@ -4,4 +4,5 @@ lxml==5.2.2
 packaging==24.0
 parsel==1.9.1
 psycopg2==2.9.9
+python-dotenv==1.0.1
 w3lib==2.1.2
