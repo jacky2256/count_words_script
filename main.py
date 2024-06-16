@@ -161,6 +161,7 @@ def stringify_line(numbers):
 
 def write_big_file(data, how='a+'):
     try:
+        print(data)
         with open("data/out/other_urls.csv", how, newline='') as file:
             writer = csv.writer(file, delimiter='\t')
             writer.writerow(data)
@@ -252,6 +253,7 @@ try:
             with open("data/out/source_urls.csv", 'a+', newline='') as file_:
                 _writer = csv.writer(file_, delimiter='\t')
                 _writer.writerow(results)
+            print(results)
 
             with open('logger.txt', '+a') as f:    
                 f.writelines(f'{parent_id} - {count_parent_keywords_list} - {count_parent_total_words}\n')
