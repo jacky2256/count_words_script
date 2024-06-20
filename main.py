@@ -219,7 +219,7 @@ try:
             SELECT l.id, l.url, l.level, l.parent_id, c.content
             FROM links AS l
             LEFT JOIN contents AS c ON (l.id = c.link_id)
-            WHERE level < 2 LIMIT 1000;
+            WHERE level < 2;
         """
         )
         data = cursor.fetchall()
