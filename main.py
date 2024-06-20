@@ -58,7 +58,7 @@ def get_data(html):
         total_words = count_total_words(html)
     except:
         total_words = 0
-
+    
     return count_keywords_list, total_words
 
 
@@ -190,12 +190,13 @@ def sum_keyword_counts(parent_list, children_list):
 
 
 try:
+    print("Strat Process...")
     headers_ = ['url']
     keywords_lists = read_keywords()
     for kewords in keywords_lists:
         headers_.append(' | '.join(kewords) + ' | total')
     headers_.append('total_words')
-    with open("data/out/results.csv", 'w', newline='') as file:
+    with open("data/out/source_urls.csv", 'w', newline='') as file:
         writer = csv.writer(file, delimiter='\t')
         writer.writerow(headers_)
 
@@ -234,16 +235,21 @@ try:
                 count_children_keywords_list, count_children_total_words = get_data(data_dict.get(children_id, {}).get('content', 'Content not found'))
                 children_data_to_write = [data_dict.get(children_id, {}).get('url', 'url not found')]
 
+                if len(count_children_keywords_list) == 0:
+                    count_children_keywords_list = count_null_keywords_list
+
                 for i in count_children_keywords_list:
                     children_data_to_write.append(i)
 
                 children_data_to_write.append(count_children_total_words)
                 children_data_to_write.append(data_dict.get(parent_id, {}).get('url', 'url not found'))
                 write_big_file(children_data_to_write, 'a+')
+                print(f"{children_data_to_write[0]} - READY")
 
                 if len(count_children_keywords_list) > 0:
                     count_parent_keywords_list = sum_keyword_counts(count_parent_keywords_list, count_children_keywords_list)
                     count_parent_total_words += count_children_total_words
+
 
             results = [data_dict.get(parent_id, {}).get('url', 'url not found')]
             for i in count_parent_keywords_list:
@@ -264,3 +270,4 @@ finally:
     if connection:
         connection.close()
         print("[INFO] PostgreSQL connection closed")
+        print("Programm END")
